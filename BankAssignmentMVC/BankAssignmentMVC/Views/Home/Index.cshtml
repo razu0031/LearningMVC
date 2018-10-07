@@ -1,0 +1,62 @@
+﻿@model IEnumerable<BankAssignmentMVC.Models.BankViewModel>
+
+@{
+    ViewBag.Title = "Bank Home";
+}
+
+<h2>All Banks</h2>
+
+<p>
+    @Html.ActionLink("Add a new bank", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th style="width: 18%">
+            @Html.DisplayNameFor(model => model.BankName)
+        </th>
+        <th style="width: 8%">
+            @Html.DisplayNameFor(model => model.BankCode)
+        </th>
+        <th style="width: 38%">
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th style="width: 15%">
+            @Html.DisplayNameFor(model => model.TotalBranches)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BankName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BankCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalBranches)
+            </td>
+            <td>
+                @if (item.TotalBranches > 0)
+                {
+                    @Html.ActionLink("All Branches", "Branches", new { id = item.BankId })
+                }
+                else
+                {
+                    @Html.ActionLink("Add New Branch", "NewBranch", new { id = item.BankId })
+                } |
+                @Html.ActionLink("Edit", "Edit", new { id = item.BankId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.BankId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.BankId })
+            </td>
+        </tr>
+    }
+
+</table>
+
+

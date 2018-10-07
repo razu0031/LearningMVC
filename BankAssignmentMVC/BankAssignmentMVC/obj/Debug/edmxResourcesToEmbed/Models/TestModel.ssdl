@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TestModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Bank">
+    <Key>
+      <PropertyRef Name="BankID" />
+    </Key>
+    <Property Name="BankID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BankName" Type="varchar" MaxLength="60" Nullable="false" />
+    <Property Name="BankCode" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="Address" Type="varchar" MaxLength="110" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Branch">
+    <Key>
+      <PropertyRef Name="BranchID" />
+    </Key>
+    <Property Name="BranchID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BankID" Type="int" Nullable="false" />
+    <Property Name="BranchCode" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="BranchName" Type="varchar" MaxLength="60" Nullable="false" />
+    <Property Name="Address" Type="varchar" MaxLength="110" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Branch_Bank">
+    <End Role="Bank" Type="Self.Bank" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Branch" Type="Self.Branch" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Bank">
+        <PropertyRef Name="BankID" />
+      </Principal>
+      <Dependent Role="Branch">
+        <PropertyRef Name="BankID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="TestModelStoreContainer">
+    <EntitySet Name="Bank" EntityType="Self.Bank" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Branch" EntityType="Self.Branch" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Branch_Bank" Association="Self.FK_Branch_Bank">
+      <End Role="Bank" EntitySet="Bank" />
+      <End Role="Branch" EntitySet="Branch" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

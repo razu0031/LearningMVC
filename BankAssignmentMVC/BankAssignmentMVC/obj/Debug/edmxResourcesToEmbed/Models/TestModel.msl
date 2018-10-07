@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="TestModelStoreContainer" CdmEntityContainer="TestContext">
+    <EntitySetMapping Name="Banks">
+      <EntityTypeMapping TypeName="TestModel.Bank">
+        <MappingFragment StoreEntitySet="Bank">
+          <ScalarProperty Name="BankID" ColumnName="BankID" />
+          <ScalarProperty Name="BankName" ColumnName="BankName" />
+          <ScalarProperty Name="BankCode" ColumnName="BankCode" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Branches">
+      <EntityTypeMapping TypeName="TestModel.Branch">
+        <MappingFragment StoreEntitySet="Branch">
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="BranchName" ColumnName="BranchName" />
+          <ScalarProperty Name="BranchCode" ColumnName="BranchCode" />
+          <ScalarProperty Name="BankID" ColumnName="BankID" />
+          <ScalarProperty Name="BranchID" ColumnName="BranchID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

@@ -1,0 +1,46 @@
+﻿@model BankAssignmentMVC.Models.BankViewModel
+
+<h2>Information about @ViewBag.BankName</h2>
+
+<div>
+
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.BankName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BankName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BankCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BankCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalBranches)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalBranches)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.BankId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TestModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Bank">
+          <Key>
+            <PropertyRef Name="BankID" />
+          </Key>
+          <Property Name="BankID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BankName" Type="varchar" MaxLength="60" Nullable="false" />
+          <Property Name="BankCode" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Address" Type="varchar" MaxLength="110" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Branch">
+          <Key>
+            <PropertyRef Name="BranchID" />
+          </Key>
+          <Property Name="BranchID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BankID" Type="int" Nullable="false" />
+          <Property Name="BranchCode" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="BranchName" Type="varchar" MaxLength="60" Nullable="false" />
+          <Property Name="Address" Type="varchar" MaxLength="110" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Branch_Bank">
+          <End Role="Bank" Type="Self.Bank" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Branch" Type="Self.Branch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bank">
+              <PropertyRef Name="BankID" />
+            </Principal>
+            <Dependent Role="Branch">
+              <PropertyRef Name="BankID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TestModelStoreContainer">
+          <EntitySet Name="Bank" EntityType="Self.Bank" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Branch" EntityType="Self.Branch" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Branch_Bank" Association="Self.FK_Branch_Bank">
+            <End Role="Bank" EntitySet="Bank" />
+            <End Role="Branch" EntitySet="Branch" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TestModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Bank">
+          <Key>
+            <PropertyRef Name="BankID" />
+          </Key>
+          <Property Name="BankID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BankName" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="BankCode" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="110" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Branches" Relationship="TestModel.FK_Branch_Bank" FromRole="Bank" ToRole="Branch" />
+        </EntityType>
+        <EntityContainer Name="TestContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Banks" EntityType="Self.Bank" />
+          <EntitySet Name="Branches" EntityType="TestModel.Branch" />
+          <AssociationSet Name="FK_Branch_Bank" Association="TestModel.FK_Branch_Bank">
+            <End Role="Bank" EntitySet="Banks" />
+            <End Role="Branch" EntitySet="Branches" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Branch">
+          <Key>
+            <PropertyRef Name="BranchID" />
+          </Key>
+          <Property Name="BranchID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BankID" Type="Int32" Nullable="false" />
+          <Property Name="BranchCode" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="BranchName" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="110" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Bank" Relationship="TestModel.FK_Branch_Bank" FromRole="Branch" ToRole="Bank" />
+        </EntityType>
+        <Association Name="FK_Branch_Bank">
+          <End Type="TestModel.Bank" Role="Bank" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="TestModel.Branch" Role="Branch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bank">
+              <PropertyRef Name="BankID" />
+            </Principal>
+            <Dependent Role="Branch">
+              <PropertyRef Name="BankID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TestModelStoreContainer" CdmEntityContainer="TestContext">
+          <EntitySetMapping Name="Banks">
+            <EntityTypeMapping TypeName="TestModel.Bank">
+              <MappingFragment StoreEntitySet="Bank">
+                <ScalarProperty Name="BankID" ColumnName="BankID" />
+                <ScalarProperty Name="BankName" ColumnName="BankName" />
+                <ScalarProperty Name="BankCode" ColumnName="BankCode" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Branches">
+            <EntityTypeMapping TypeName="TestModel.Branch">
+              <MappingFragment StoreEntitySet="Branch">
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="BranchName" ColumnName="BranchName" />
+                <ScalarProperty Name="BranchCode" ColumnName="BranchCode" />
+                <ScalarProperty Name="BankID" ColumnName="BankID" />
+                <ScalarProperty Name="BranchID" ColumnName="BranchID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram DiagramId="e8dc843534574955b4061c66a5e3017c" Name="Diagram1">
+        <EntityTypeShape EntityType="TestModel.Bank" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestModel.Branch" Width="1.5" PointX="3.375" PointY="0.875" />
+        <AssociationConnector Association="TestModel.FK_Branch_Bank" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

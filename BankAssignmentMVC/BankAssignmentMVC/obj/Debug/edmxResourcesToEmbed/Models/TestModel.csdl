@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TestModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Bank">
+    <Key>
+      <PropertyRef Name="BankID" />
+    </Key>
+    <Property Name="BankID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BankName" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="BankCode" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Address" Type="String" MaxLength="110" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Branches" Relationship="TestModel.FK_Branch_Bank" FromRole="Bank" ToRole="Branch" />
+  </EntityType>
+  <EntityContainer Name="TestContext" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Banks" EntityType="Self.Bank" />
+    <EntitySet Name="Branches" EntityType="TestModel.Branch" />
+    <AssociationSet Name="FK_Branch_Bank" Association="TestModel.FK_Branch_Bank">
+      <End Role="Bank" EntitySet="Banks" />
+      <End Role="Branch" EntitySet="Branches" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Branch">
+    <Key>
+      <PropertyRef Name="BranchID" />
+    </Key>
+    <Property Name="BranchID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BankID" Type="Int32" Nullable="false" />
+    <Property Name="BranchCode" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="BranchName" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
+    <Property Name="Address" Type="String" Nullable="false" MaxLength="110" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Bank" Relationship="TestModel.FK_Branch_Bank" FromRole="Branch" ToRole="Bank" />
+  </EntityType>
+  <Association Name="FK_Branch_Bank">
+    <End Type="TestModel.Bank" Role="Bank" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="TestModel.Branch" Role="Branch" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Bank">
+        <PropertyRef Name="BankID" />
+      </Principal>
+      <Dependent Role="Branch">
+        <PropertyRef Name="BankID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

@@ -1,0 +1,38 @@
+﻿@model BankAssignmentMVC.Models.BranchViewModel
+
+<h2>Details information of @ViewBag.BranchName | @ViewBag.BankName</h2>
+
+<div>
+
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.BranchName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BranchName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BranchCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BranchCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.BranchID }) |
+    @Html.ActionLink("Back to List", "Index", new { id = Model.BankID })
+</p>
